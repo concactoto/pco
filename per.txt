@@ -1,3 +1,0 @@
- #!/usr/bin/perl
-     $result = '/bin/bash /opt/lucee/tomcat/unshare.sh';
-     echo $result;
