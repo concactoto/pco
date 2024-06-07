@@ -1,6 +1,6 @@
 # Define variables
 $hMailServerInstallerUrl = "https://www.hmailserver.com/files/hMailServer-5.6.7-B2425.exe"
-$hMailServerPath = "C:\Program Files (x86)\hMailServer"
+$hMailServerPath = "C:\hMailServer"
 $downloadPath = "$env:TEMP\hMailServerSetup.exe"
 $domainName = "secure.vermontlaw.edu"
 $emailAccount = "users"
