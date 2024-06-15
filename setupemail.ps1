@@ -2,8 +2,8 @@
 $smarterMailAdmin = "admin"
 $smarterMailAdminPassword = "NewAdminPassword123!"
 $smarterMailServer = "localhost"
-$domainToAdd = "b.com"
-$emailAccount = "user@b.com"
+$domainToAdd = "apps.law.georgetown.edu"
+$emailAccount = "test@apps.law.georgetown.edu"
 $emailPassword = "UserPassword123!"
 
 # Function to reset SmarterMail admin password
